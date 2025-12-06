@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ — Giám sát IoT-AI</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/page-transition.css">
+    <link rel="stylesheet" href="/css/extra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <script src="/js/utils/auth-check.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="/images/logo.png" alt="IoT–AI Dashboard" />
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/pages/home.html" class="active">
+                        <span class="material-icons icon">dashboard</span>
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/du_bao_thoi_tiet.html">
+                        <span class="material-icons icon">wb_sunny</span>
+                        Thời tiết
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/chat_luong_khong_khi.html">
+                        <span class="material-icons icon">public</span>
+                        Không khí
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/bang_dieu_khien.html">
+                        <span class="material-icons icon">analytics</span>
+                        Nhiệt độ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/account.html">
+                        <span class="material-icons icon">manage_accounts</span>
+                        Quản lý tài khoản
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Nhóm 10</p>
+                <button class="logout-btn" id="btnSidebarLogout">
+                    <span class="material-icons">logout</span>
+                    Đăng xuất
+                </button>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <h1>Bảng điều khiển</h1>
+                <div class="header-actions">
+                    <span id="currentUserDisplay"
+                        style="display:none;font-size:14px;margin-right:16px;color:#333;font-weight:500;"></span>
+                    <a href="/pages/login.html" id="btnHeaderLogin" class="btn btn-secondary">
+                        <span class="material-icons icon">login</span>
+                        Đăng nhập
+                    </a>
+                </div>
+            </header>
+            <div class="cards-grid">
+                <!-- API SETUP GUIDE -->
+                <div class="card card-api-setup">
+                    <div class="api-setup-header">
+                        <span class="material-icons api-setup-icon">key</span>
+                        <h3>🔑 Hướng dẫn lấy API</h3>
+                    </div>
+                    <div class="api-setup-content">
+                        <div class="api-item">
+                            <div class="api-title">
+                                <span class="api-emoji">🤖</span>
+                                <strong>API Gemini (AI Assistant)</strong>
+                            </div>
+                            <p class="api-desc">Lấy API key từ Google AI Studio để sử dụng trợ lý AI thông minh</p>
+                            <a href="https://ai.google.dev/aistudio" target="_blank" class="btn btn-primary btn-sm">
+                                <span class="material-icons icon">open_in_new</span>
+                                Lấy API Gemini
+                            </a>
+                        </div>
+                        <div class="api-item">
+                            <div class="api-title">
+                                <span class="api-emoji">🌤️</span>
+                                <strong>API Thời tiết (Weather)</strong>
+                            </div>
+                            <p class="api-desc">Lấy API key từ OpenWeatherMap để cập nhật dự báo thời tiết</p>
+                            <a href="https://openweathermap.org/api" target="_blank" class="btn btn-primary btn-sm">
+                                <span class="material-icons icon">open_in_new</span>
+                                Lấy API Thời tiết
+                            </a>
+                        </div>
+                        <div class="api-setup-note">
+                            <span class="material-icons">info</span>
+                            <p>Sau khi lấy API keys, vui lòng cấu hình chúng trong phần Cấu hình của hệ thống</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUICK START GUIDE -->
+                <div class="card card-guide">
+                    <div class="guide-header">
+                        <span class="material-icons guide-icon">help_outline</span>
+                        <h3>📖 Hướng dẫn sử dụng nhanh</h3>
+                    </div>
+                    <div class="guide-content">
+                        <div class="guide-item">
+                            <div class="guide-number">1</div>
+                            <div class="guide-text">
+                                <strong>Thời tiết & Thời tiết</strong>
+                                <p>Xem dự báo thời tiết chi tiết, độ ẩm, gió, UV Index</p>
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-number">2</div>
+                            <div class="guide-text">
+                                <strong>Giám sát Không khí</strong>
+                                <p>Kiểm tra chất lượng không khí theo thời gian thực</p>
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-number">3</div>
+                            <div class="guide-text">
+                                <strong>Phân tích Nhiệt độ</strong>
+                                <p>Theo dõi biểu đồ nhiệt độ và độ ẩm 24 giờ</p>
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-number">4</div>
+                            <div class="guide-text">
+                                <strong>Chat với AI</strong>
+                                <p>Hỏi AI về thời tiết, không khí, cấu hình hệ thống</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="guide-footer">
+                        <p class="guide-tip">💡 Tip: Dùng phím "M" để nói chuyện với AI trên bất kỳ trang nào</p>
+                    </div>
+                </div>
+
+                <!-- FEATURES SHOWCASE -->
+                <div class="card card-features">
+                    <div class="features-header">
+                        <span class="material-icons features-icon">stars</span>
+                        <h3>✨ Tính năng chính</h3>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-emoji">📡</span>
+                            <div class="feature-text">
+                                <strong>Giám sát Real-time</strong>
+                                <p>Dữ liệu cập nhật liên tục</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-emoji">🤖</span>
+                            <div class="feature-text">
+                                <strong>Trợ lý AI Thông minh</strong>
+                                <p>Gợi ý & phân tích tự động</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-emoji">📊</span>
+                            <div class="feature-text">
+                                <strong>Biểu đồ & Thống kê</strong>
+                                <p>Trực quan hoá dữ liệu</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-emoji">🔔</span>
+                            <div class="feature-text">
+                                <strong>Cảnh báo Thông minh</strong>
+                                <p>Thông báo khi bất thường</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI ASSISTANT -->
+                <div class="card card-ai-assistant">
+                    <div class="ai-header">
+                        <span class="material-icons ai-icon">support_agent</span>
+                        <h3>🤖 Trợ lý AI</h3>
+                    </div>
+                    <div id="chatLogHome" class="chat-log">
+                        <div class="chat-welcome">
+                            <span class="material-icons">waving_hand</span>
+                            <p>Xin chào! Tôi là AI hỗ trợ. Bạn có thể hỏi tôi về thời tiết, không khí, hoặc cấu hình hệ
+                                thống.</p>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chatNhapHome" class="chat-input" placeholder="Nhập câu hỏi..."
+                                autocomplete="off">
+                            <button id="chatGuiHome" class="btn btn-primary btn-send">
+                                <span class="material-icons icon">send</span>
+                            </button>
+                        </div>
+                        <button id="btnVoice" class="btn btn-secondary btn-voice">
+                            <span class="material-icons icon">mic</span>
+                            Nói chuyện
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUGGESTIONS -->
+                <div class="card card-suggestions">
+                    <div class="suggestions-header">
+                        <span class="material-icons suggestions-icon">lightbulb</span>
+                        <h3>💡 Gợi ý sử dụng</h3>
+                    </div>
+                    <div class="suggestions-list">
+                        <div class="suggestion-item">
+                            <span class="suggestion-bullet">→</span>
+                            <p><strong>Để bắt đầu:</strong> Nhấn vào "Thời tiết" để xem dự báo chi tiết</p>
+                        </div>
+                        <div class="suggestion-item">
+                            <span class="suggestion-bullet">→</span>
+                            <p><strong>Kiểm tra cấu hình:</strong> Click "⚙️ Cấu hình" để tùy chỉnh API & thông báo</p>
+                        </div>
+                        <div class="suggestion-item">
+                            <span class="suggestion-bullet">→</span>
+                            <p><strong>Chat với AI:</strong> Hỏi "Thời tiết hôm nay thế nào?" hoặc "Không khí tốt
+                                không?"</p>
+                        </div>
+                        <div class="suggestion-item">
+                            <span class="suggestion-bullet">→</span>
+                            <p><strong>Xem thống kê:</strong> Vào trang Nhiệt độ để xem biểu đồ 24 giờ</p>
+                        </div>
+                        <div class="suggestion-item">
+                            <span class="suggestion-bullet">→</span>
+                            <p><strong>Cảnh báo:</strong> Nếu không khí xấu, bạn sẽ nhận thông báo tự động</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <div id="modalConfig" class="modal" style="display: none;">
+    </div>
+    <div id="modalThongKe" class="modal" style="display: none;">
+    </div>
+
+    <script src="/js/utils/page-loader.js" defer></script>
+    <script src="/js/core/common.js" defer></script>
+    <script src="/js/core/config.js" defer></script>
+    <script src="/js/features/alerts.js" defer></script>
+    <script src="/js/core/socket-handler.js" defer></script>
+    <script src="/js/features/ai-integration.js" defer></script>
+    <script src="/js/features/chat.js" defer></script>
+    <script src="/js/features/stats.js" defer></script>
+    <script src="/js/features/logout.js" defer></script>
+    <script src="/js/pages/home-page.js" defer></script>
+    <script src="/js/features/auth-display.js" defer></script>
+</body>
+
+</html>

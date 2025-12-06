@@ -1,0 +1,1145 @@
+/* Phong cách Cải tiến cho Phần Thông tin Mặt trời & Mây */
+
+/* ===== TOAST CONTAINER - Hiển thị ở góc phải trên ===== */
+.toast-container {position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  pointer-events: auto;}
+
+.toast {background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideInToast 0.3s ease-out;
+  pointer-events: auto;
+  border: none;
+  min-width: 300px;
+  max-width: 100%;
+  word-wrap: break-word;
+  color: #000000;}
+
+.toast.closing {animation: slideOutToast 0.3s ease-out forwards;}
+
+.toast-critical {border-left-color: #dc3545;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);}
+
+.toast-high {border-left-color: #fd7e14;
+  background: linear-gradient(135deg, #fff8f0 0%, #fff4e0 100%);}
+
+.toast-warning {border-left-color: #ffc107;
+  background: linear-gradient(135deg, #fffef0 0%, #fff3cd 100%);}
+
+.toast-info {border-left-color: #17a2b8;
+  background: linear-gradient(135deg, #f0f8ff 0%, #d1ecf1 100%);}
+
+.toast-success {border-left-color: #28a745;
+  background: linear-gradient(135deg, #f0fff4 0%, #d4edda 100%);}
+
+.toast-content {display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  justify-content: space-between;}
+
+.toast-icon {font-size: 20px;
+  flex-shrink: 0;}
+
+.toast-message {flex: 1;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;}
+
+.toast-close {background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;}
+
+.toast-close:hover {opacity: 1;}
+
+/* Hiển thị Nhiệt độ */
+.temp-display {display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  background: #73c6d9;
+  border-radius: 10px;
+  color: white;}
+
+.temp-value {font-size: 48px;
+  font-weight: 800;
+  color: #ffecb3;
+  min-width: 150px;}
+
+.temp-meta {display: flex;
+  gap: 12px;
+  flex: 1;}
+
+.temp-meta > div {display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.15);
+  padding: 10px 14px;
+  border-radius: 6px;}
+
+.temp-meta small {font-size: 11px;
+  opacity: 0.85;
+  margin-bottom: 4px;}
+
+.temp-meta div:last-child {font-size: 18px;
+  font-weight: 700;}
+
+/* Container Dự báo */
+.forecast-container {background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  min-height: 90px;
+  max-height: 140px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  font-size: 13px;}
+
+.forecast-content {line-height: 1.6;
+  color: #333;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;}
+
+/* ===== LỊCH SỬ CẢNH BÁO (ALERT HISTORY) - Chung cho các trang ===== */
+.alert-history {max-height: 400px;
+  overflow-y: auto;
+  border-radius: 6px;
+  padding: 0;
+  background: transparent;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;}
+
+.alert-history::-webkit-scrollbar {width: 6px;}
+
+.alert-history::-webkit-scrollbar-track {background: #f1f1f1;
+  border-radius: 3px;}
+
+.alert-history::-webkit-scrollbar-thumb {background: #007bff;
+  border-radius: 3px;}
+
+.alert-history::-webkit-scrollbar-thumb:hover {background: #0056b3;}
+
+.alert-history-list {max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;}
+
+.alert-item {display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border-left: 5px solid;
+  animation: slideIn 0.3s ease-out;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e9ecef;}
+
+.alert-item:last-child {border-bottom: none;}
+
+.alert-item:hover {
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);}
+
+.alert-empty {text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 14px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  border-radius: 8px;
+  border: none;}
+
+/* ===== BIẾN THỂ CẢNH BÁO - Chung cho các trang ===== */
+.alert-item.severity-critical,
+.alert-warning {border-left-color: #ff9800 !important;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.15) !important;}
+
+.alert-danger {border-left-color: #f44336 !important;
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%) !important;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2) !important;}
+
+.alert-success {border-left-color: #4caf50 !important;
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%) !important;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15) !important;}
+
+.alert-time {font-size: 11px;
+  color: #000000 !important;
+  min-width: 60px;
+  font-weight: 600;}
+
+.alert-msg {flex: 1;
+  font-size: 12px;
+  color: #000000 !important;}
+
+/* ===== CHI TIẾT LỊCH SỬ CẢNH BÁO (ALERTS DETAILS) - Cho các trang khác ===== */
+.alert-history-header {display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 12px;}
+
+.alert-history-info {display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;}
+
+.alert-icon {font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;}
+
+.alert-history-item {border-bottom: 1px solid #e9ecef;
+  padding: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;}
+
+.alert-history-item:hover {background: #f8f9fa;
+  padding-left: 16px;}
+
+.alert-history-item:last-child {border-bottom: none;}
+
+@media(min-width:900px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .header .main-nav {
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+}
+
+@media(max-width:768px) {
+  .hero {
+    padding: 100px 12px 60px;
+  }
+  .hero h2 {
+    font-size: 28px;
+  }
+  .main-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .nav-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+    min-height: 38px;
+  }
+
+  .temp-display {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .temp-meta {
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
+/* Kiểu dáng trang Thời tiết */
+.weather-display-new {display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px;
+  background: #73c6d9;
+  border-radius: 10px;
+  color: white;
+  align-items: center;}
+
+.weather-main-new {display: flex;
+  align-items: center;
+  gap: 20px;}
+
+.weather-icon-new {font-size: 64px;
+  line-height: 1;}
+
+.weather-temp-new {font-size: 48px;
+  font-weight: 700;
+  color: #ffecb3;}
+
+.weather-details-new {display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;}
+
+.detail-item-new {background: rgba(255,255,255,0.15);
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;}
+
+.detail-icon {font-size: 24px;
+  margin-bottom: 5px;}
+
+.detail-label {font-size: 11px;
+  opacity: 0.85;
+  margin-bottom: 3px;}
+
+.detail-value {font-size: 14px;
+  font-weight: 700;}
+
+.weather-condition-new {font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;}
+
+.info-item-new {display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: white;
+  border-radius: 5px;
+  border-left: 3px solid #667eea;}
+
+.info-icon {font-size: 24px;
+  margin-bottom: 5px;}
+
+.info-label {font-weight: 600;
+  color: #333;
+  font-size: 13px;}
+
+.info-value {font-size: 14px;
+  color: #667eea;
+  font-weight: 700;}
+
+/* ===== PHẦN CHI TIẾT KHÁC (MISC DETAILS) - THIẾT KẾ MỚI ===== */
+.misc-details-new {display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;}
+
+.pressure-item, .wind-gust-item, .visibility-item, .humidity-item {display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #ff9800;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  width: 100%;}
+
+.pressure-item {border-left-color: #ff6b6b;}
+
+.wind-gust-item {border-left-color: #4ecdc4;}
+
+.visibility-item {border-left-color: #45b7d1;}
+
+.humidity-item {border-left-color: #96ceb4;}
+
+.pressure-item:hover, .wind-gust-item:hover, .visibility-item:hover, .humidity-item:hover {transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);}
+
+.pressure-item-icon, .wind-gust-item-icon, .visibility-item-icon, .humidity-item-icon {font-size: 32px;
+  flex-shrink: 0;}
+
+.pressure-item-content, .wind-gust-item-content, .visibility-item-content, .humidity-item-content {display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  text-align: center;
+  align-items: center;}
+
+.pressure-item-status, .wind-gust-item-status, .visibility-item-status, .humidity-item-status {font-size: 11px;
+  color: #999;
+  font-weight: 500;}
+
+/* Responsive Misc Details */
+@media(max-width: 900px) {.misc-details-new {grid-template-columns: repeat(2, 1fr);}
+
+  .pressure-item, .wind-gust-item, .visibility-item, .humidity-item {padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;}
+
+  .pressure-item-icon, .wind-gust-item-icon, .visibility-item-icon, .humidity-item-icon {font-size: 28px;}}
+
+@media(max-width: 600px) {.misc-details-new {grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;}
+
+  .pressure-item, .wind-gust-item, .visibility-item, .humidity-item {padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;}
+
+  .pressure-item-icon, .wind-gust-item-icon, .visibility-item-icon, .humidity-item-icon {font-size: 24px;}
+
+  .info-label {font-size: 11px;}}
+
+/* ===== PHẦN CHI TIẾT Ô NHIỄM (POLLUTION DETAILS) - THIẾT KẾ MỚI ===== */
+.pollution-details-new {display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;}
+
+.pm25-item, .pm10-item, .o3-item, .no2-item {display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #ff9800;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  width: 100%;}
+
+.pm25-item {border-left-color: #ff6b6b;}
+
+.pm10-item {border-left-color: #ffa726;}
+
+.o3-item {border-left-color: #ab47bc;}
+
+.no2-item {border-left-color: #29b6f6;}
+
+.pm25-item:hover, .pm10-item:hover, .o3-item:hover, .no2-item:hover {transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);}
+
+.pm25-item-icon, .pm10-item-icon, .o3-item-icon, .no2-item-icon {font-size: 32px;
+  flex-shrink: 0;}
+
+.pm25-item-content, .pm10-item-content, .o3-item-content, .no2-item-content {display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  text-align: center;
+  align-items: center;}
+
+.pm25-item-status, .pm10-item-status, .o3-item-status, .no2-item-status {font-size: 11px;
+  color: #999;
+  font-weight: 500;}
+
+/* Responsive Pollution Details */
+@media(max-width: 900px) {.pollution-details-new {grid-template-columns: repeat(2, 1fr);}
+
+  .pm25-item, .pm10-item, .o3-item, .no2-item {padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;}
+
+  .pm25-item-icon, .pm10-item-icon, .o3-item-icon, .no2-item-icon {font-size: 28px;}}
+
+@media(max-width: 600px) {.pollution-details-new {grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;}
+
+  .pm25-item, .pm10-item, .o3-item, .no2-item {padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;}
+
+  .pm25-item-icon, .pm10-item-icon, .o3-item-icon, .no2-item-icon {font-size: 24px;}
+
+  .info-label {font-size: 11px;}}
+
+.pollution-display {display: flex;
+  gap: 14px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  align-items: center;}
+
+.aqi-circle {display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  flex-shrink: 0;}
+
+.aqi-value {font-size: 40px;
+  font-weight: 800;}
+
+.aqi-label {font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2px;}
+
+.aqi-circle.good {background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);}
+.aqi-circle.moderate {background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);}
+.aqi-circle.unhealthy {background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);}
+.aqi-circle.hazardous {background: linear-gradient(135deg, #4b0082 0%, #8b0000 100%);}
+
+.pollution-stats {display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  flex: 1;}
+
+.stat-item {background: white;
+  padding: 10px;
+  border-radius: 6px;
+  border-left: 3px solid #f5576c;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);}
+
+.stat-item:nth-child(2) {border-left-color: #fa709a;}
+.stat-item:nth-child(3) {border-left-color: #fee140;}
+.stat-item:nth-child(4) {border-left-color: #ffa500;}
+
+.stat-label {font-size: 11px;
+  color: #999;
+  font-weight: 600;
+  margin-bottom: 3px;}
+
+.stat-value {font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2px;}
+
+.stat-status {font-size: 11px;
+  padding: 3px 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  color: #666;
+  font-weight: 500;}
+
+.health-impact {padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;}
+
+.impact-box {display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;}
+
+.impact-group {background: white;
+  padding: 12px;
+  border-radius: 6px;
+  border-top: 2px solid #667eea;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);}
+
+.impact-group small {display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 6px;}
+
+.impact-group div {font-size: 12px;
+  line-height: 1.5;
+  color: #333;}
+
+@media(max-width:900px) {.weather-display-new {flex-direction: column;
+    gap: 12px;}
+
+  .weather-details-new {grid-template-columns: repeat(2, 1fr);}
+
+  .pollution-display {flex-direction: column;
+    gap: 12px;}
+
+  .pollution-stats {grid-template-columns: repeat(2, 1fr);}
+
+  .impact-box {grid-template-columns: repeat(2, 1fr);}
+
+  .sun-info-new {grid-template-columns: 1fr;}
+
+  .aqi-circle {width: 100px;
+    height: 100px;
+    font-size: 36px;}}
+
+@media(max-width:600px) {.impact-box {grid-template-columns: 1fr;}
+
+  .pollution-stats {grid-template-columns: 1fr;}}
+
+/* Nội dung chính trang Dự báo và Ô nhiễm */
+main[style*="margin-top: 120px"] {display: grid;
+  grid-template-columns: 1fr 1.1fr 1.2fr;
+  gap: 12px;
+  padding: 12px 12px 16px;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;}
+
+@media(max-width: 1200px) {main[style*="margin-top: 120px"] {grid-template-columns: repeat(2, 1fr);
+    gap: 12px;}}
+
+@media(max-width: 768px) {main[style*="margin-top: 120px"] {grid-template-columns: 1fr;
+    padding: 12px 10px;
+    gap: 10px;}}
+
+/* Responsive Phần Mặt trời & Mây */
+@media(max-width: 900px) {.sun-info-new {grid-template-columns: repeat(2, 1fr);}
+
+  .sun-item, .cloud-item, .dew-item {padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;}
+
+  .sun-item-icon, .cloud-item-icon, .dew-item-icon {font-size: 28px;}
+
+  .info-value {font-size: 18px;}}
+
+@media(max-width: 600px) {.sun-info-new {grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;}
+
+  .sun-item, .cloud-item, .dew-item {padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;}
+
+  .sun-item-icon, .cloud-item-icon, .dew-item-icon {font-size: 24px;}
+
+  .info-value {font-size: 16px;}
+
+  .info-label {font-size: 11px;}}
+
+/* ===== PHẦN LỊCH SỬ CẢNH BÁO (ALERT HISTORY SECTION) ===== */
+.card-alert-history {grid-column: span 3;}
+
+@media(max-width: 1200px) {.card-alert-history {grid-column: span 2;}}
+
+@media(max-width: 768px) {.card-alert-history {grid-column: span 1;}}
+
+.alert-history-controls {display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  align-items: center;}
+
+.alert-history-controls .btn {padding: 8px 14px;
+  font-size: 13px;}
+
+.alert-history-controls .btn-danger {background-color: #dc3545;
+  color: white;
+  border: none;}
+
+.alert-history-controls .btn-danger:hover {background-color: #c82333;}
+
+.history-count {font-size: 13px;
+  color: #999;
+  font-weight: 600;
+  padding: 8px 12px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  margin-left: auto;}
+
+.alert-history-filter {display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;}
+
+.search-input,
+.filter-select {padding: 8px 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  flex: 1;
+  min-width: 150px;}
+
+.search-input:focus,
+.filter-select:focus {outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);}
+
+.filter-select {flex: 0 0 auto;
+  min-width: 200px;}
+
+.alert-history-list {max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;}
+
+.history-empty {text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-style: italic;
+  background: #f8f9fa;
+  border-radius: 6px;}
+
+.alert-history-item {border-bottom: 1px solid #e9ecef;
+  padding: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;}
+
+.alert-history-item:hover {background: #f8f9fa;
+  padding-left: 16px;}
+
+.alert-history-item:last-child {border-bottom: none;}
+
+.alert-history-header {display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 12px;}
+
+.alert-history-info {display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;}
+
+.alert-icon {font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;}
+
+.alert-meta {display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;}
+
+.alert-type {font-weight: 600;
+  color: #333;
+  font-size: 13px;
+  padding: 3px 8px;
+  background: #e9ecef;
+  border-radius: 3px;}
+
+.alert-severity {font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: #007bff;
+  color: white;}
+
+.alert-pollutant {font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  background: #ffc107;
+  color: #333;
+  border-radius: 3px;}
+
+.alert-time-info {display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;}
+
+.alert-time-relative {font-size: 13px;
+  font-weight: 600;
+  color: #007bff;}
+
+.alert-time-absolute {font-size: 11px;
+  color: #999;}
+
+.alert-history-content {padding: 8px 0;
+  margin-bottom: 8px;}
+
+.alert-message {font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 6px;}
+
+.alert-value {font-size: 12px;
+  color: #666;
+  padding: 4px 8px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  display: inline-block;}
+
+.alert-details {font-size: 12px;
+  color: #666;
+  padding: 6px 8px;
+  background: #f8f9fa;
+  border-left: 3px solid #007bff;
+  border-radius: 3px;
+  margin-bottom: 6px;}
+
+.alert-recommendations {font-size: 12px;
+  padding: 8px;
+  background: #e7f3ff;
+  border-radius: 3px;
+  margin-bottom: 6px;}
+
+.alert-recommendations strong {color: #0056b3;
+  display: block;
+  margin-bottom: 4px;}
+
+.alert-recommendations ul {margin: 0;
+  padding-left: 20px;}
+
+.alert-recommendations li {margin-bottom: 3px;
+  color: #333;}
+
+.alert-history-actions {display: flex;
+  gap: 8px;}
+
+.btn-small {padding: 4px 10px;
+  font-size: 11px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;}
+
+.btn-small:hover {transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);}
+
+.btn-mark-resolved {color: #28a745;
+  border-color: #28a745;}
+
+.btn-mark-resolved:hover {background: #28a745;
+  color: white;}
+
+.btn-delete {color: #dc3545;
+  border-color: #dc3545;}
+
+.btn-delete:hover {background: #dc3545;
+  color: white;}
+
+@media(max-width: 768px) {.alert-history-header {flex-direction: column;}
+
+  .alert-time-info {align-items: flex-start;
+    width: 100%;}
+
+  .alert-history-filter {flex-direction: column;}
+
+  .search-input,
+  .filter-select {min-width: 100%;
+    flex: 1;}
+
+  .history-count {margin-left: 0;
+    width: 100%;
+    text-align: center;}}
+
+/* ===== TABS THỐNG KÊ (STATS TABS) ===== */
+.stats-tabs {display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 12px;}
+
+.stats-tab-btn {padding: 8px 16px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+  bottom: -12px;}
+
+.stats-tab-btn:hover {color: #007bff;}
+
+.stats-tab-btn.active {color: #007bff;
+  border-bottom-color: #007bff;}
+
+.stats-tab-content {display: none;}
+
+.stats-tab-content.active {display: block;
+  animation: fadeIn 0.3s ease;}
+
+@keyframes fadeIn {from {opacity: 0;
+    transform: translateY(-5px);}
+  to {opacity: 1;
+    transform: translateY(0);}}
+
+@keyframes pulse {0%, 100% {opacity: 1;}
+  50% {opacity: 0.7;}}
+
+/* Trạng thái cập nhật lịch sử cảnh báo */
+.alert-history-update-status {animation: pulse 2s infinite;}
+
+.alert-history-update-info {display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;}
+
+.alert-history-update-info::before {content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #28a745;
+  border-radius: 50%;
+  animation: pulse 2s infinite;}
+.last-updated {font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin-top: 10px;}
+
+.error-message {color: #dc3545;
+
+    font-weight: 600;}
+
+/* Chủ đề Xanh lam cho Trang Ô nhiễm */
+
+.pollution-blue-theme .card-weather-current-new {background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);}
+
+.pollution-blue-theme #aqiCircle {transition: background 0.5s ease;}
+
+.pollution-blue-theme #aqiCircle.good {background: linear-gradient(135deg, #4dd0e1 0%, #26c6da 100%);}
+
+.pollution-blue-theme #aqiCircle.moderate {background: linear-gradient(135deg, #000 0%, #000 100%);}
+
+.pollution-blue-theme #aqiCircle.moderate-unhealthy {background: linear-gradient(135deg, #5c6bc0 0%, #3f51b5 100%);}
+
+.pollution-blue-theme #aqiCircle.unhealthy {background: linear-gradient(135deg, #7e57c2 0%, #673ab7 100%);}
+
+.pollution-blue-theme #aqiCircle.very-unhealthy {background: linear-gradient(135deg, #5a48a7 0%, #4527a0 100%);}
+
+.pollution-blue-theme #aqiCircle.hazardous {background: linear-gradient(135deg, #4a148c 0%, #311b92 100%);}
+
+.pollution-blue-theme .detail-item-new {background: rgb(255, 255, 255);
+
+    border-left: 3px solid #29b6f6;}
+
+.pollution-blue-theme .weather-condition-new {color: #0277bd;}
+
+.pollution-blue-theme .card-misc-details-new .info-item-new {border-left-color: #29b6f6;}
+
+.pollution-blue-theme .card-misc-details-new .info-value {color: #0277bd;}
+
+.pollution-blue-theme .card-temp-forecast h2 {color: #0277bd;}
+
+.pollution-blue-theme #bieuDoO_Nhiem {border-color: #29b6f6;}
+
+.stats-grid {display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;}
+.stat-item {background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;}
+.stat-label {font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;}
+.stat-value {font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;}
+/* Kiểu dáng trạng thái nút cấu hình */
+.btn-config.config-status-ok {background-color: #28a745; /* Green */
+  border-color: #28a745;
+  color: white;}
+
+.btn-config.config-status-ok:hover {background-color: #218838;
+  border-color: #1e7e34;}
+
+.btn-config.config-status-warning {background-color: #ffc107; /* Yellow */
+  border-color: #ffc107;
+  color: #212529; /* Dark text for contrast */}
+
+.btn-config.config-status-warning:hover {background-color: #e0a800;
+  border-color: #d39e00;}
+
+.btn-config.config-status-error {background-color: #dc3545; /* Red */
+  border-color: #dc3545;
+  color: white;}
+
+.btn-config.config-status-error:hover {background-color: #c82333;
+  border-color: #bd2130;}
+
+/* Kiểu dáng Tối ưu cho Phần Thông tin Mặt trời & Mây */
+.sun-info-new {display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;}
+
+.sun-item, .cloud-item, .dew-item {display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #ff9800;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  width: 100%;}
+
+.sun-item {border-left-color: #ffc107;}
+
+.cloud-item {border-left-color: #4a90e2;}
+
+.dew-item {border-left-color: #1abc9c;}
+
+.sun-item:hover, .cloud-item:hover, .dew-item:hover {transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);}
+
+.sun-item-icon, .cloud-item-icon, .dew-item-icon {font-size: 32px;
+  flex-shrink: 0;}
+
+.sun-item-content, .cloud-item-content, .dew-item-content {display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  text-align: center;
+  align-items: center;}
+
+.info-label {font-size: 12px;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;}
+
+.info-value {font-size: 20px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;}
+
+.sun-item-status, .dew-item-status {font-size: 11px;
+  color: #999;
+  font-weight: 500;}
+
+.cloud-item-bar {width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;}
+
+.cloud-progress {height: 100%;
+  background: linear-gradient(90deg, #4a90e2 0%, #7bb3ff 100%);
+  width: 0%;
+  transition: width 0.5s ease;}
+
+/* ===== HỘP CẢNH BÁO CHÍNH (MAIN ALERTS BOX) - Cảnh báo ô nhiễm & thời tiết ===== */
+#mainAlerts {display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8ecf1 100%);
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);}
+
+#mainAlerts .alert-item {margin: 0;}
+
+#mainAlerts:empty {display: none;}
+
+/* ===== PHẦN TỬ CẢNH BÁO Ô NHIỄM (POLLUTION ALERT ITEMS) ===== */
+.pollution-alert-item {display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border-left: 4px solid #fd7e14;
+  background: linear-gradient(135deg, #fff8f0 0%, #fff4e0 100%);
+  box-shadow: 0 2px 6px rgba(253, 126, 20, 0.12);
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-out;}
+
+.pollution-alert-item:hover {transform: translateX(3px);
+  box-shadow: 0 3px 10px rgba(253, 126, 20, 0.2);}
+
+.pollution-alert-item.critical {border-left-color: #dc3545;
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);}
+
+.pollution-alert-item.warning {border-left-color: #ffc107;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);}
+
+.pollution-alert-item.info {border-left-color: #17a2b8;
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);}
+
+/* ===== PHẦN TỬ CẢNH BÁO THỜI TIẾT (WEATHER ALERT ITEMS) ===== */
+.weather-alert-item {display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border-left: 4px solid #17a2b8;
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+  box-shadow: 0 2px 6px rgba(23, 162, 184, 0.12);
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-out;}
+
+.weather-alert-item:hover {transform: translateX(3px);
+  box-shadow: 0 3px 10px rgba(23, 162, 184, 0.2);}
+
+.weather-alert-item.critical {border-left-color: #dc3545;
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);}
+
+.weather-alert-item.warning {border-left-color: #ffc107;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);}
+
+/* ===== HEADER & NỘI DUNG CẢNH BÁO ===== */
+.alert-item-header {display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;}
+
+.alert-item-icon {font-size: 18px;
+  min-width: 24px;
+  text-align: center;}
+
+.alert-item-title {font-weight: 600;
+  font-size: 14px;
+  color: #000000;}
+
+.alert-item-time {font-size: 12px;
+  color: #666;
+  white-space: nowrap;}
+
+.alert-item-body {display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;}
+
+.alert-item-message {flex: 1;
+  word-wrap: break-word;}
+
+.alert-item-footer {display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);}
+
+.alert-item-footer .btn-sm {font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;}
+
+.alert-item-footer .btn-sm:hover {background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);}
+
+/* ===== RESPONSIVE CẢNH BÁO ===== */
+@media(max-width: 768px) {
+  #mainAlerts {padding: 12px;
+    gap: 10px;}
+
+  .pollution-alert-item,
+  .weather-alert-item {padding: 10px 12px;
+    gap: 6px;}
+
+  .alert-item-header {flex-wrap: wrap;}
+
+  .alert-item-footer {flex-wrap: wrap;
+    gap: 6px;}
+}

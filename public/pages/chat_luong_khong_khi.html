@@ -1,0 +1,631 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="vi">
+    <title>Dự báo ô nhiễm — Nhóm 10</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/page-transition.css">
+    <link rel="stylesheet" href="/css/extra.css">
+    <script src="/js/utils/auth-check.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body class="pollution-blue-theme">
+    <header class="header">
+        <h1>🌡️ Hệ thống giám sát — Ô nhiễm</h1>
+        <div class="header-row">
+            <div class="main-nav">
+                <a class="nav-btn" href="/pages/home.html">Trang chủ</a>
+                <a class="nav-btn" href="/pages/du_bao_thoi_tiet.html">Thời tiết</a>
+                <a class="nav-btn" href="/pages/chat_luong_khong_khi.html">Không khí</a>
+                <a class="nav-btn" href="/pages/bang_dieu_khien.html">Nhiệt độ</a>
+            </div>
+
+            <div class="header-stats">
+                <span id="tsLocation">📍 Vị trí: --</span>
+                <button id="btnAiLocate" class="btn btn-sm" type="button" onclick="window.updateLocationFromAI()">🤖 AI
+                    Locate</button>
+
+                <button id="btnToggleAlerts" class="btn btn-alert-toggle" type="button">🔔 Tắt cảnh báo</button>
+                <button id="btnToggleSound" class="btn btn-alert-toggle" type="button">🔊 Tắt âm</button>
+                <button id="btnToggleToasts" class="btn btn-alert-toggle" type="button">💬 Tắt thông báo</button>
+                <button id="btnUpdateData" class="btn">🔄 Cập nhật</button>
+                <button id="btnThongKe" class="btn">📊 Thống kê</button>
+                <button id="btnConfig" class="btn btn-config" type="button">⚙️ Cấu hình</button>
+            </div>
+    </header>
+
+    <!-- MODAL CẤU HÌNH HỆ THỐNG - REDESIGNED v2 -->
+    <div id="modalConfig" class="modal">
+        <div class="modal-content config-modal-v2">
+            <!-- Header với Close Button -->
+            <div class="config-header-v2">
+                <div class="config-header-left">
+                    <h2>⚙️ Cấu hình hệ thống</h2>
+                    <p>Quản lý API, Thời tiết, Thông báo và Ngưỡng cảnh báo</p>
+                </div>
+                <button class="btn-close-modal" id="closeConfig">&times;</button>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="config-tabs-v2">
+                <button class="config-tab-v2 active" data-tab="general">
+                    <span>⚙️</span>
+                    <span>Chung</span>
+                </button>
+                <button class="config-tab-v2" data-tab="ai">
+                    <span>🤖</span>
+                    <span>AI & API</span>
+                </button>
+                <button class="config-tab-v2" data-tab="weather">
+                    <span>🌤️</span>
+                    <span>Thời tiết</span>
+                </button>
+                <button class="config-tab-v2" data-tab="notification">
+                    <span>🔔</span>
+                    <span>Thông báo</span>
+                </button>
+                <button class="config-tab-v2" data-tab="thresholds">
+                    <span>⚠️</span>
+                    <span>Ngưỡng</span>
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="config-content-v2">
+                <!-- TAB 1: General Settings -->
+                <div class="config-tab-pane active" id="general-tab">
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🎨 Giao diện</h3>
+                            <p class="card-desc">Tùy chỉnh giao diện ứng dụng</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-group">
+                                <label class="setting-label">Ngôn ngữ</label>
+                                <select id="language" class="setting-input">
+                                    <option value="vi">🇻🇳 Tiếng Việt</option>
+                                    <option value="en">🇬🇧 English</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Chế độ tối</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="darkMode">
+                                    <label for="darkMode"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🔔 Cảnh báo</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-group">
+                                <label class="setting-label">Bật cảnh báo</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enableAlerts" checked>
+                                    <label for="enableAlerts"></label>
+                                </div>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Âm thanh cảnh báo</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enableSound" checked>
+                                    <label for="enableSound"></label>
+                                </div>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Thông báo popup</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enableToasts" checked>
+                                    <label for="enableToasts"></label>
+                                </div>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Khôi phục cài đặt mặc định</label>
+                                <button id="btnResetDefaults" class="btn btn-outline btn-sm">🔄 Khôi phục</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: AI & API -->
+                <div class="config-tab-pane" id="ai-tab">
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🤖 Cấu hình AI</h3>
+                            <p class="card-desc">Chọn nhà cung cấp AI và mô hình</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-group">
+                                <label class="setting-label">Loại API</label>
+                                <select id="apiType" class="setting-input">
+                                    <option value="local">🖥️ Local (Không dùng API)</option>
+                                    <option value="openai">🔴 OpenAI (ChatGPT)</option>
+                                    <option value="google">🔵 Google AI (Gemini)</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Mô hình AI</label>
+                                <select id="aiModel" class="setting-input">
+                                    <option value="">-- Chọn mô hình --</option>
+                                    <optgroup label="OpenAI">
+                                        <option value="gpt-4o-mini">⚡ GPT-4o Mini (nhanh, rẻ)</option>
+                                        <option value="gpt-4o">🏆 GPT-4o (tốt nhất)</option>
+                                        <option value="gpt-4-turbo">🚀 GPT-4 Turbo</option>
+                                    </optgroup>
+                                    <optgroup label="Google Gemini">
+                                        <option value="gemini-2.5-flash">⚡ Gemini 2.5 Flash (mới)</option>
+                                        <option value="gemini-1.5-pro">🏆 Gemini 1.5 Pro</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">API Key</label>
+                                <div class="input-with-icon">
+                                    <input type="password" id="apiKey" class="setting-input" placeholder="sk-...">
+                                    <button type="button" class="btn-icon-small">👁️</button>
+                                </div>
+                                <small class="hint-text">🔒 API Key được lưu an toàn trên trình duyệt của bạn</small>
+                            </div>
+
+                            <div class="setting-group">
+                                <button id="btnTestAI" class="btn btn-primary btn-full">🧪 Kiểm tra kết nối AI</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: Weather -->
+                <div class="config-tab-pane" id="weather-tab">
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🌤️ Cấu hình thời tiết</h3>
+                            <p class="card-desc">Nhận dự báo thời tiết realtime</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-group">
+                                <label class="setting-label">Nhà cung cấp</label>
+                                <select id="weatherProvider" class="setting-input">
+                                    <option value="">❌ Không sử dụng</option>
+                                    <option value="openweather">🌍 OpenWeatherMap</option>
+                                    <option value="weatherapi">🌐 WeatherAPI.com</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">API Key</label>
+                                <input type="password" id="weatherApiKey" class="setting-input"
+                                    placeholder="Nhập API key">
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Địa điểm</label>
+                                <input type="text" id="weatherCity" class="setting-input"
+                                    placeholder="Hà Nội hoặc 21.0285,105.8542">
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Tần suất cập nhật (giây)</label>
+                                <input type="number" id="weatherPollInterval" class="setting-input" min="10" max="3600"
+                                    value="60">
+                            </div>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Trạng thái vị trí</label>
+                                <div id="geoStatus"
+                                    style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 4px; color: #ccc; font-size: 14px; text-align: center;">
+                                    Sẵn sàng xác định vị trí</div>
+                            </div>
+
+                            <div class="setting-group">
+                                <button id="btnGeolocate" class="btn btn-secondary btn-full">📍 Xác định vị trí hiện
+                                    tại</button>
+                            </div>
+
+                            <div class="setting-group">
+                                <button id="btnTestWeather" class="btn btn-primary btn-full">🧪 Kiểm tra thời
+                                    tiết</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Notification -->
+                <div class="config-tab-pane" id="notification-tab">
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🔔 Tùy chọn thông báo</h3>
+                            <p class="card-desc">Quản lý cách bạn nhận cảnh báo</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-desc" style="margin-bottom: 15px;">⚙️ Các cài đặt thông báo đã được di chuyển
+                                sang tab "Chung" phía trên để dễ quản lý tập trung.</p>
+
+                            <div class="setting-group">
+                                <label class="setting-label">Âm lượng (0 - 100%)</label>
+                                <input type="range" id="soundVolume" class="setting-input" min="0" max="1" step="0.1"
+                                    value="0.5">
+                                <small class="hint-text">Âm lượng hiện tại: <span id="volumeValue">50</span>%</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>📊 Trạng thái cảnh báo</h3>
+                            <p class="card-desc">Kiểm tra trạng thái hệ thống thông báo</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-group">
+                                <p id="notificationStatus" style="line-height: 1.8;">
+                                    <strong>🔔 Cảnh báo:</strong> <span id="statusAlerts">✅ Bật</span><br>
+                                    <strong>🔊 Âm thanh:</strong> <span id="statusSound">✅ Bật</span><br>
+                                    <strong>💬 Thông báo:</strong> <span id="statusToasts">✅ Bật</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: Thresholds (Page-Specific) -->
+                <div class="config-tab-pane" id="thresholds-tab">
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>😷 Chỉ số AQI</h3>
+                            <p class="card-desc">Cảnh báo khi AQI cao</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="threshold-group">
+                                <div class="threshold-item">
+                                    <label>Mức cảnh báo AQI</label>
+                                    <div class="threshold-input-group">
+                                        <input type="number" id="aqiThreshold" class="threshold-input" value="150"
+                                            step="1" data-min="0" data-max="500">
+                                        <span class="unit">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>💨 PM2.5 (Hạt siêu mịn)</h3>
+                            <p class="card-desc">Cảnh báo khi PM2.5 cao</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="threshold-group">
+                                <div class="threshold-item">
+                                    <label>Mức cảnh báo (μg/m³)</label>
+                                    <div class="threshold-input-group">
+                                        <input type="number" id="pm25Threshold" class="threshold-input" value="75"
+                                            step="1" data-min="0" data-max="500">
+                                        <span class="unit">μg/m³</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🌪️ PM10 (Hạt mịn)</h3>
+                            <p class="card-desc">Cảnh báo khi PM10 cao</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="threshold-group">
+                                <div class="threshold-item">
+                                    <label>Mức cảnh báo (μg/m³)</label>
+                                    <div class="threshold-input-group">
+                                        <input type="number" id="pm10Threshold" class="threshold-input" value="150"
+                                            step="1" data-min="0" data-max="500">
+                                        <span class="unit">μg/m³</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🏭 NO₂ (Nitrogen Dioxide)</h3>
+                            <p class="card-desc">Cảnh báo khi NO₂ cao</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="threshold-group">
+                                <div class="threshold-item">
+                                    <label>Mức cảnh báo (ppb)</label>
+                                    <div class="threshold-input-group">
+                                        <input type="number" id="no2Threshold" class="threshold-input" value="100"
+                                            step="1" data-min="0" data-max="500">
+                                        <span class="unit">ppb</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-card">
+                        <div class="card-header">
+                            <h3>🌫️ O₃ (Ozone)</h3>
+                            <p class="card-desc">Cảnh báo khi Ozone cao</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="threshold-group">
+                                <div class="threshold-item">
+                                    <label>Mức cảnh báo (ppb)</label>
+                                    <div class="threshold-input-group">
+                                        <input type="number" id="o3Threshold" class="threshold-input" value="70"
+                                            step="1" data-min="0" data-max="500">
+                                        <span class="unit">ppb</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-footer-v2">
+                <button id="btnResetDefaults" class="btn btn-outline">🔄 Khôi phục mặc định</button>
+                <button id="btnSaveConfig" class="btn btn-primary">💾 Lưu</button>
+                <button id="btnHuy" class="btn btn-outline">❌ Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL THỐNG KÊ - REDESIGNED -->
+    <div id="modalThongKe" class="modal">
+        <div class="modal-content stats-modal">
+            <div class="modal-header-stats">
+                <div class="modal-title-stats">
+                    <span class="modal-icon">📊</span>
+                    <h2>Thống kê hệ thống</h2>
+                </div>
+                <span class="close" id="closeStats">&times;</span>
+            </div>
+
+            <div class="stats-tabs-wrapper">
+                <div class="stats-tabs">
+                    <button class="stats-tab-btn active" data-tab="stats-overview">
+                        <span>📊 Tổng quan</span>
+                    </button>
+                    <button class="stats-tab-btn" data-tab="stats-history">
+                        <span>📋 Lịch sử cảnh báo</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-scroll-container">
+                <!-- TAB 1: STATS OVERVIEW -->
+                <div id="stats-overview" class="stats-tab-content active">
+                    <div class="stats-header-info">
+                        <div class="update-status">
+                            <span class="status-icon">🔄</span>
+                            <span class="stats-last-update">Cập nhật lúc: --</span>
+                        </div>
+                    </div>
+
+                    <!-- KPI Cards Grid -->
+                    <div class="stats-kpi-grid">
+                        <div class="stats-kpi-card alert-card">
+                            <div class="kpi-icon">⚠️</div>
+                            <div class="kpi-label">Cảnh báo</div>
+                            <div class="kpi-value" id="statAlerts">0</div>
+                        </div>
+                        <div class="stats-kpi-card temp-card">
+                            <div class="kpi-icon">😷</div>
+                            <div class="kpi-label">AQI TB</div>
+                            <div class="kpi-value" id="statAQIAvg">--</div>
+                        </div>
+                        <div class="stats-kpi-card humidity-card">
+                            <div class="kpi-icon">💨</div>
+                            <div class="kpi-label">PM2.5 TB</div>
+                            <div class="kpi-value" id="statPM25Avg">-- μg/m³</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Section -->
+                    <div class="stats-chart-wrapper">
+                        <h3 class="chart-title">📈 Biểu đồ AQI</h3>
+                        <div class="chart-container">
+                            <canvas id="pollutionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ALERT HISTORY -->
+                <div id="stats-history" class="stats-tab-content">
+                    <div class="alert-history-header">
+                        <div class="history-status">
+                            <span class="status-icon">🔄</span>
+                            <span class="history-update-info">Cập nhật liên tục (10s/lần)</span>
+                        </div>
+                    </div>
+
+                    <div class="alert-history-toolbar">
+                        <button id="btnExportAlertHistory" class="btn btn-outline" type="button">📥 Xuất báo
+                            cáo</button>
+                        <button id="btnClearAlertHistory" class="btn btn-danger" type="button">🗑️ Xóa lịch sử</button>
+                        <span id="alertHistoryCount" class="history-count">0 cảnh báo</span>
+                    </div>
+
+                    <div class="alert-history-filters">
+                        <input id="alertHistorySearch" class="filter-input" type="text" placeholder="🔍 Tìm kiếm...">
+                        <select id="alertHistorySeverity" class="filter-select">
+                            <option value="">Tất cả mức độ</option>
+                            <option value="critical">🚨 Nguy hiểm</option>
+                            <option value="high">⚠️ Cảnh báo</option>
+                            <option value="warning">⚡ Chú ý</option>
+                            <option value="info">ℹ️ Thông tin</option>
+                        </select>
+                    </div>
+
+                    <div id="alertHistoryList" class="alert-history-list">
+                        <div class="history-empty">📭 Chưa có dữ liệu cảnh báo</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-footer">
+                <button id="btnClearAllStats" class="btn btn-danger" type="button">🗑️ Xóa toàn bộ</button>
+                <button id="closeStatsBtn" class="btn btn-outline" type="button">❌ Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section class="card card-weather-current-new">
+            <h2>Chỉ số chất lượng không khí (AQI)</h2>
+            <div class="loader" id="pollutionLoader" style="display: none;"></div>
+            <div class="weather-display-new">
+                <div class="weather-main-new">
+                    <div id="aqiCircle" class="aqi-circle good">
+                        <div id="aqiValue" style="font-size: 40px;">--</div>
+                    </div>
+                </div>
+                <div class="weather-details-new">
+                    <div class="detail-item-new">
+                        <span class="detail-icon">💨</span>
+                        <div class="detail-label">Bụi mịn (PM2.5)</div>
+                        <div class="detail-value" id="pm25Value">-- µg/m³</div>
+                    </div>
+                    <div class="detail-item-new">
+                        <span class="detail-icon">💨</span>
+                        <div class="detail-label">Bụi thô (PM10)</div>
+                        <div class="detail-value" id="pm10Value">-- µg/m³</div>
+                    </div>
+                    <div class="detail-item-new">
+                        <span class="detail-icon">🧪</span>
+                        <div class="detail-label">Ôzôn (O₃)</div>
+                        <div class="detail-value" id="o3Value">-- ppb</div>
+                    </div>
+                    <div class="detail-item-new">
+                        <span class="detail-icon">🧪</span>
+                        <div class="detail-label">Nitơ Điôxít (NO₂)</div>
+                        <div class="detail-value" id="no2Value">-- ppb</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weather-condition-new" id="aqiLabel">Đang tải...</div>
+            <div id="lastUpdated" class="last-updated">--</div>
+            <div class="button-group-footer">
+                <button id="btnUpdatePollution" class="btn" type="button">🔄 Cập nhật</button>
+            </div>
+        </section>
+
+        <section class="card card-weather-alerts">
+            <h2>⚠ Cảnh báo ô nhiễm</h2>
+            <div id="pollutionAlerts" class="alert-history">
+                <div class="alert-empty">Không có cảnh báo</div>
+            </div>
+        </section>
+
+        <section class="card card-chat-ai">
+            <h2>🤖 Chat AI</h2>
+            <div id="prompts" class="prompts">
+                <small>Gợi ý:</small>
+                <div id="promptsList" class="prompts-list"></div>
+            </div>
+            <div id="chatLogPollution" class="box chat-log"></div>
+            <div class="chat-controls">
+                <label style="margin-right: 8px;"><strong>Giọng điệu:</strong></label>
+                <select id="aiTone" class="tone-select">
+                    <option value="friendly">😊 Thân thiện</option>
+                    <option value="casual">😎 Thoải mái</option>
+                    <option value="formal">🎩 Trang trọng</option>
+                    <option value="technical">🔬 Kỹ thuật</option>
+                </select>
+            </div>
+            <div class="chat-hang">
+                <input id="chatNhapPollution" class="chat-input" placeholder="Nhập tin nhắn...">
+                <button id="chatGuiPollution" class="btn-chat" type="button">Gửi</button>
+                <button id="btnVoicePollution" class="btn-chat btn-voice" title="Nói (STT)" type="button">🎤</button>
+                <button id="btnTTSPollution" class="btn-chat btn-tts" title="Đọc (TTS)" type="button">🔊</button>
+            </div>
+        </section>
+
+        <section class="card card-temp-forecast">
+            <h2>📈 Biểu đồ PM2.5 (24h)</h2>
+            <div class="chart-container"><canvas id="bieuDoO_Nhiem"></canvas></div>
+        </section>
+
+        <section class="card card-sun-info-new">
+            <h2>🤖 Gợi ý từ AI</h2>
+            <div id="aiRecommendations" class="recommendations-content">
+                <div class="loading-spinner"></div>
+            </div>
+        </section>
+
+        <section class="card card-pollution-details-new">
+            <h2>🔬 Chi tiết các chất ô nhiễm</h2>
+            <div class="pollution-details-new">
+                <div class="info-item-new pm25-item">
+                    <div class="pm25-item-icon">💨</div>
+                    <div class="pm25-item-content">
+                        <div class="info-label">Bụi mịn (PM2.5)</div>
+                        <div class="info-value" id="pm25Status">--</div>
+                        <div class="pm25-item-status" id="pm25Description">Không có dữ liệu</div>
+                    </div>
+                </div>
+                <div class="info-item-new pm10-item">
+                    <div class="pm10-item-icon">💨</div>
+                    <div class="pm10-item-content">
+                        <div class="info-label">Bụi thô (PM10)</div>
+                        <div class="info-value" id="pm10Status">--</div>
+                        <div class="pm10-item-status" id="pm10Description">Không có dữ liệu</div>
+                    </div>
+                </div>
+                <div class="info-item-new o3-item">
+                    <div class="o3-item-icon">🧪</div>
+                    <div class="o3-item-content">
+                        <div class="info-label">Ôzôn (O₃)</div>
+                        <div class="info-value" id="o3Status">--</div>
+                        <div class="o3-item-status" id="o3Description">Không có dữ liệu</div>
+                    </div>
+                </div>
+                <div class="info-item-new no2-item">
+                    <div class="no2-item-icon">🧪</div>
+                    <div class="no2-item-content">
+                        <div class="info-label">Nitơ Điôxít (NO₂)</div>
+                        <div class="info-value" id="no2Status">--</div>
+                        <div class="no2-item-status" id="no2Description">Không có dữ liệu</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/js/utils/page-loader.js" defer></script>
+    <script src="/js/core/common.js" defer></script>
+    <script src="/js/utils/data-persistence.js" defer></script>
+    <script src="/js/utils/location-manager.js" defer></script>
+    <script src="/js/core/socket-handler.js" defer></script>
+    <script src="/js/core/config.js" defer></script>
+    <script src="/js/features/alerts.js" defer></script>
+    <script src="/js/features/alert-history.js" defer></script>
+    <script src="/js/features/threshold-alerts.js" defer></script>
+    <script src="/js/features/ai-integration.js" defer></script>
+    <script src="/js/features/chat.js" defer></script>
+    <script src="/js/features/stats.js" defer></script>
+    <script src="/js/utils/geolocation-handler.js" defer></script>
+    <script src="/js/pages/main-page.js" defer></script>
+    <script src="/js/utils/pollution-config.js" defer></script>
+    <script src="/js/pages/pollution.js" defer></script>
+</body>
+
+</html>

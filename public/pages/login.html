@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập — IoT-AI Monitor</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/page-transition.css">
+    <link rel="stylesheet" href="/css/extra.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="auth-page login-page">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">IoT-AI</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/pages/home.html">
+                        <span class="material-icons icon">dashboard</span>
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/du_bao_thoi_tiet.html">
+                        <span class="material-icons icon">wb_sunny</span>
+                        Thời tiết
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/chat_luong_khong_khi.html">
+                        <span class="material-icons icon">public</span>
+                        Không khí
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/bang_dieu_khien.html">
+                        <span class="material-icons icon">analytics</span>
+                        Nhiệt độ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/account.html">
+                        <span class="material-icons icon">manage_accounts</span>
+                        Quản lý tài khoản
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Nhóm 10</p>
+                <button class="logout-btn" id="btnSidebarLogout">
+                    <span class="material-icons">logout</span>
+                    Đăng xuất
+                </button>
+            </div>
+        </aside>
+        <main class="main-content auth-main">
+            <div class="cards-grid auth-card-wrapper">
+                <div class="auth-layout">
+                    <section class="auth-hero">
+                        <div class="auth-hero-badge">IoT-AI Monitor</div>
+                        <h2>Quản lý hệ thống IoT thông minh</h2>
+                        <p>
+                            Kết nối thiết bị, giám sát dữ liệu thời gian thực và khai thác sức mạnh AI trong một
+                            dashboard duy nhất.
+                        </p>
+                        <div class="auth-hero-metrics">
+                            <div class="auth-hero-metric">
+                                <strong>250+</strong>
+                                <span>Thiết bị đang hoạt động</span>
+                            </div>
+                            <div class="auth-hero-metric">
+                                <strong>99.9%</strong>
+                                <span>Thời gian sẵn sàng</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="card auth-card">
+                        <div class="auth-page-label">Đăng nhập</div>
+                        <div class="auth-tab-header">
+                            <div class="auth-tab-group">
+                                <button class="auth-tab active" type="button">Đăng nhập</button>
+                                <button class="auth-tab" type="button"
+                                    onclick="location.href='/pages/register.html'">Đăng ký</button>
+                            </div>
+                            <div class="auth-tab-qr-label">
+                                <span>Đăng nhập với mã QR</span>
+                                <span class="material-icons">qr_code_2</span>
+                            </div>
+                        </div>
+
+                        <h2 class="auth-title">Chào mừng quay lại</h2>
+                        <p class="auth-subtitle">
+                            Đăng nhập để truy cập bảng điều khiển IoT-AI.
+                        </p>
+
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="loginEmail">Email/Số điện thoại/Tên đăng nhập</label>
+                                <input type="text" id="loginEmail" name="loginEmail"
+                                    placeholder="Email/Số điện thoại/Tên đăng nhập">
+                            </div>
+                            <div class="form-group password-input-group">
+                                <label for="loginPassword">Mật khẩu</label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="loginPassword" name="loginPassword"
+                                        placeholder="Mật khẩu">
+                                    <button type="button" class="password-toggle-btn" id="toggleLoginPassword">
+                                        <span class="material-icons">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group auth-remember-row">
+                                <label style="display:flex;align-items:center;gap:6px;">
+                                    <input type="checkbox" id="rememberMe" style="width:auto;">
+                                    Nhớ đăng nhập
+                                </label>
+                                <a href="/pages/forgot-password.html" style="text-decoration:none;color:#ff5722;">Quên
+                                    mật khẩu?</a>
+                            </div>
+                            <button type="submit" id="btnLogin" class="btn btn-primary"
+                                style="width:100%;margin-top:4px;">
+                                Đăng nhập
+                            </button>
+                        </form>
+
+                        <div class="auth-divider"><span>HOẶC</span></div>
+
+                        <div class="auth-social-row">
+                            <button type="button" class="btn auth-social facebook">
+                                <i class='bx bxl-facebook'></i>
+                                Facebook
+                            </button>
+
+                            <button type="button" class="btn auth-social google">
+                                <i class='bx bxl-google'></i>
+                                Google
+                            </button>
+                        </div>
+
+                        <div class="auth-footer-text">
+                            Bạn mới biết đến IoT-AI?
+                            <a href="/pages/register.html">Đăng ký</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/utils/page-loader.js" defer></script>
+    <script src="/js/features/logout.js" defer></script>
+    <script src="/js/features/auth.js" defer></script>
+</body>
+
+</html>

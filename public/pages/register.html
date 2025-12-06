@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký — IoT-AI Monitor</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/page-transition.css">
+    <link rel="stylesheet" href="/css/extra.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="auth-page login-page">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">IoT-AI</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/pages/home.html">
+                        <span class="material-icons icon">dashboard</span>
+                        Trang chủ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/du_bao_thoi_tiet.html">
+                        <span class="material-icons icon">wb_sunny</span>
+                        Thời tiết
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/chat_luong_khong_khi.html">
+                        <span class="material-icons icon">public</span>
+                        Không khí
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/bang_dieu_khien.html">
+                        <span class="material-icons icon">analytics</span>
+                        Nhiệt độ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pages/account.html">
+                        <span class="material-icons icon">manage_accounts</span>
+                        Quản lý tài khoản
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Nhóm 10</p>
+                <button class="logout-btn" id="btnSidebarLogout">
+                    <span class="material-icons">logout</span>
+                    Đăng xuất
+                </button>
+            </div>
+        </aside>
+        <main class="main-content auth-main">
+            <div class="cards-grid auth-card-wrapper">
+                <div class="auth-layout">
+                    <section class="auth-hero">
+                        <div class="auth-hero-badge">Tham gia cộng đồng IoT-AI</div>
+                        <h2>Xây dựng hệ sinh thái IoT của riêng bạn</h2>
+                        <p>
+                            Theo dõi môi trường, tối ưu vận hành và tự động hóa thiết bị chỉ với vài cú nhấp chuột trên
+                            nền tảng IoT-AI.
+                        </p>
+                        <div class="auth-hero-metrics">
+                            <div class="auth-hero-metric">
+                                <strong>15+</strong>
+                                <span>Module chuyên sâu</span>
+                            </div>
+                            <div class="auth-hero-metric">
+                                <strong>1.2M</strong>
+                                <span>Dữ liệu xử lý mỗi ngày</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="card auth-card">
+                        <div class="auth-page-label">Đăng ký</div>
+                        <div class="auth-tab-header">
+                            <div class="auth-tab-group">
+                                <button class="auth-tab" type="button" onclick="location.href='/pages/login.html'">Đăng
+                                    nhập</button>
+                                <button class="auth-tab active" type="button">Đăng ký</button>
+                            </div>
+                            <div class="auth-tab-qr-label">
+                                <span>Đăng nhập với mã QR</span>
+                                <span class="material-icons">qr_code_2</span>
+                            </div>
+                        </div>
+
+                        <h2 class="auth-title">Tạo tài khoản mới</h2>
+                        <p class="auth-subtitle">
+                            Đăng ký để sử dụng đầy đủ các tính năng giám sát IoT-AI.
+                        </p>
+
+                        <form id="registerForm">
+                            <div class="auth-form-grid">
+                                <div class="form-group">
+                                    <label for="fullName">Họ và tên</label>
+                                    <input type="text" id="fullName" name="fullName" placeholder="VD: Nguyễn Văn A">
+                                </div>
+                                <div class="form-group">
+                                    <label for="registerEmail">Email</label>
+                                    <input type="email" id="registerEmail" name="registerEmail"
+                                        placeholder="vd: user@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Tên đăng nhập</label>
+                                    <input type="text" id="username" name="username"
+                                        placeholder="Tên đăng nhập dùng để đăng nhập">
+                                </div>
+                                <div class="form-group password-input-group">
+                                    <label for="registerPassword">Mật khẩu</label>
+                                    <div class="password-input-wrapper">
+                                        <input type="password" id="registerPassword" name="registerPassword"
+                                            placeholder="Tối thiểu 6 ký tự">
+                                        <button type="button" class="password-toggle-btn" id="toggleRegisterPassword">
+                                            <span class="material-icons">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group password-input-group">
+                                <label for="confirmPassword">Xác nhận mật khẩu</label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="confirmPassword" name="confirmPassword"
+                                        placeholder="Nhập lại mật khẩu">
+                                    <button type="button" class="password-toggle-btn" id="toggleConfirmPassword">
+                                        <span class="material-icons">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" id="btnRegister" class="btn btn-primary"
+                                style="width:100%;margin-top:4px;">
+                                Đăng ký
+                            </button>
+                        </form>
+
+                        <div class="auth-divider"><span>HOẶC</span></div>
+
+                        <div class="auth-social-row">
+                            <button type="button" class="btn auth-social facebook">
+                                <i class='bx bxl-facebook'></i>
+                                Facebook
+                            </button>
+
+                            <button type="button" class="btn auth-social google">
+                                <i class='bx bxl-google'></i>
+                                Google
+                            </button>
+                        </div>
+
+                        <div class="auth-footer-text">
+                            Đã có tài khoản?
+                            <a href="/pages/login.html">Đăng nhập</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/utils/page-loader.js" defer></script>
+    <script src="/js/features/logout.js" defer></script>
+    <script src="/js/features/auth.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý tài khoản — IoT-AI Monitor</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/page-transition.css">
+    <link rel="stylesheet" href="/css/extra.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <script src="/js/utils/auth-check.js"></script>
+</head>
+
+<body class="auth-page">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="/images/logo.png" alt="IoT–AI Dashboard" />
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/pages/home.html"><span class="material-icons icon">dashboard</span>Trang
+                        chủ</a></li>
+                <li class="nav-item"><a href="/pages/du_bao_thoi_tiet.html"><span
+                            class="material-icons icon">wb_sunny</span>Thời tiết</a></li>
+                <li class="nav-item"><a href="/pages/chat_luong_khong_khi.html"><span
+                            class="material-icons icon">public</span>Không khí</a></li>
+                <li class="nav-item"><a href="/pages/bang_dieu_khien.html"><span
+                            class="material-icons icon">analytics</span>Nhiệt độ</a></li>
+                <li class="nav-item"><a href="/pages/account.html" class="active"><span
+                            class="material-icons icon">manage_accounts</span>Quản lý tài khoản</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>&copy; 2025 Nhóm 10</p>
+                <button class="logout-btn" id="btnSidebarLogout">
+                    <span class="material-icons">logout</span>
+                    Đăng xuất
+                </button>
+            </div>
+        </aside>
+        <main class="main-content auth-main">
+            <header class="header">
+                <h1>Quản lý tài khoản</h1>
+            </header>
+            <div class="cards-grid auth-card-wrapper" style="width:100%;">
+                <div class="auth-layout" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:24px;">
+                    <div class="card auth-card" style="min-height:auto;">
+                        <h2 class="auth-title">Thông tin cá nhân</h2>
+                        <p class="auth-subtitle">Cập nhật tên hiển thị và thông tin liên hệ.</p>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="profileName">Họ và tên</label>
+                                <input type="text" id="profileName" placeholder="VD: Nguyễn Văn A">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileEmail">Email</label>
+                                <input type="email" id="profileEmail" placeholder="user@example.com" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="profileUsername">Tên đăng nhập</label>
+                                <input type="text" id="profileUsername" placeholder="iot_user" disabled>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">
+                                Lưu thông tin
+                            </button>
+                            <div class="form-status" id="profileStatus"></div>
+                        </form>
+                    </div>
+                    <div class="card auth-card" style="min-height:auto;">
+                        <h2 class="auth-title">Bảo mật tài khoản</h2>
+                        <p class="auth-subtitle">Thay đổi mật khẩu định kỳ để bảo vệ dữ liệu.</p>
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Mật khẩu hiện tại</label>
+                                <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Mật khẩu mới</label>
+                                <input type="password" id="newPassword" placeholder="Tối thiểu 6 ký tự">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmNewPassword">Xác nhận mật khẩu mới</label>
+                                <input type="password" id="confirmNewPassword" placeholder="Nhập lại mật khẩu">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">
+                                Đổi mật khẩu
+                            </button>
+                            <div class="form-status" id="passwordStatus"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/utils/page-loader.js" defer></script>
+    <script src="/js/features/logout.js" defer></script>
+    <script src="/js/features/auth-display.js" defer></script>
+    <script src="/js/pages/account-page.js" defer></script>
+</body>
+
+</html>
