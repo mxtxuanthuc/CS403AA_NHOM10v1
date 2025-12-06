@@ -5,7 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giám sát IoT-AI</title>
-    <meta http-equiv="refresh" content="0;url=public/pages/login.html" />
+    <script>
+        // Tự động redirect với xử lý đường dẫn linh hoạt
+        (function () {
+            const currentPath = window.location.pathname;
+            const baseUrl = window.location.origin;
+
+            // Xác định đường dẫn base (cho GitHub Pages hoặc local)
+            let redirectPath = '/public/pages/login.html';
+
+            // Nếu đang ở GitHub Pages (có path prefix)
+            if (currentPath.includes('/CS403_Nhom10')) {
+                const basePath = currentPath.split('/').slice(0, 2).join('/');
+                redirectPath = basePath + '/public/pages/login.html';
+            }
+
+            // Redirect
+            window.location.href = baseUrl + redirectPath;
+        })();
+    </script>
     <style>
         body {
             margin: 0;
