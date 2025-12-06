@@ -1,0 +1,7 @@
+{
+  "tempMax": 20,
+  "tempMin": 15,
+  "humidityMax": 100,
+  "humidityMin": 40,
+  "batteryMin": 50
+}

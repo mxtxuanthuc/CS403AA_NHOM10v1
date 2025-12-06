@@ -1,0 +1,17 @@
+{
+  "apiKey": "AIzaSyB1EMwpAwaNpOccuW3cuCaRDRPeZrPq3Ko",
+  "apiType": "google",
+  "aiModel": "gemini-2.5-flash",
+  "aiTone": "friendly",
+  "weatherProvider": "openweather",
+  "weatherApiKey": "58cc27d06adce1e14eb79de7b17a7dc6",
+  "weatherCity": "Lat:16.10547, Lon:108.13112",
+  "weatherLat": 15.9973376,
+  "weatherLon": 108.1606144,
+  "weatherPollInterval": 60000,
+  "ttsProvider": "google",
+  "ttsApiKey": "",
+  "ttsLang": "vi-VN",
+  "googleApiKey": "AIzaSyCo5fPatJJKhORD6xQSgj6-G-C_udsbt7c",
+  "googleMapsApiKey": "AIzaSyAGqxUTnVMZ-efWj2HyBD5WxzXLaiBsfsw"
+}
